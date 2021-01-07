@@ -1,0 +1,37 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../sjpsdom.js"></script>
+    <title>sjpsdom testing</title>
+  </head>
+
+  <body>
+
+    <div id="root"></div>
+
+    <script>
+
+      const IndexView = (state, _state, view) => {
+        return (
+          E$('div', {id: 'div'},
+            E$('h1', state.title),
+            E$('hr'),
+            E$('p', state.message)
+          )
+        )
+      }
+
+      const state = {
+        title: 'My first sjpsdom app!',
+        message: 'Hello, world!'
+      }
+
+      INIT$('#root', IndexView, state)
+
+    </script>
+
+  </body>
+
+</html>

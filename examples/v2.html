@@ -1,0 +1,70 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../sjpsdom.js"></script>
+    <title>v2 testing</title>
+  </head>
+
+  <body>
+
+    <div id="root"></div>
+
+    <script>
+
+      class CharCountView {
+
+        constructor(state) {
+          state.charCount = state.charCount || '0'
+          this.html = this.generate(state)
+        }
+
+        generate(state) {
+          return E$('div',
+            E$('input', {type: 'text', placeholder: 'Type in your text!', oninput: e => this.oninput(e, state)}),
+            E$('br'),
+            E$('b', state.charCount.toString())
+          )
+        }
+
+        update(state) {
+          Q$('b', this.html).innerText = state.charCount
+        }
+
+        oninput(event, state) {
+          state.charCount = event.target.value.split(' ').reduce((sum, word) => sum + word.length, 0).toString()
+        }
+
+      }
+
+      class AppView {
+
+        constructor(state) {
+          this.views = [
+            new CharCountView(state)
+          ]
+          this.html = this.generate(state)
+        }
+
+        generate(state) {
+          return E$('div',
+            E$('h1', 'My First Class-Based SJPSDOM App!'),
+            E$('hr'),
+            ...this.views.map(view => view.html)
+          )
+        }
+
+        update(state) {
+          this.views.forEach(view => view.update(state))
+        }
+
+      }
+
+      INIT_CLASS$('#root', AppView)
+
+    </script>
+
+  </body>
+
+</html>
