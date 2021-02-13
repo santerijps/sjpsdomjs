@@ -301,7 +301,7 @@ async function INIT$(rootQuery, appViewDefinition, state)
 
   // Handle class-based apps seperately
   if (!!appViewDefinition.toString().match(/^class/))
-    return INIT_CLASS$(rootElement, appViewDefinition, currentState, previousState)
+    return INIT_CLASS$(rootQuery, appViewDefinition)
 
   // Insert app view in the root element
   let appView = appViewDefinition(currentState, previousState, null)
