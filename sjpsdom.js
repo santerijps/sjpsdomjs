@@ -1,5 +1,9 @@
+const SJPSDOM_EVENT = new CustomEvent("sjpsdom-event", {bubbles: true})
+
 function getActiveEvents(element)
 {
+  // Finds the events of an element that are being listened to.
+  // Returns a list of event names.
   const events = []
   for (const field in element)
   {
@@ -471,8 +475,14 @@ function INIT_CLASS$(rootElementQuery, appClass)
   let previousState = {}
 
   // Create an instance of the app class.
-  // Set the app html into the view.
   let app = new appClass(currentState)
+
+  // Implicitly add a method called stateChanged.
+  // This method will force the app to update by triggering the SJPSDOM_EVENT.
+  // Can be used with callbacks.
+  app.stateChanged = () => rootElement.dispatchEvent(SJPSDOM_EVENT)
+
+  // Set the app html into the document view.
   SETE$(rootElement, app.html)
 
   function rootEventListener(_event)
@@ -485,6 +495,9 @@ function INIT_CLASS$(rootElementQuery, appClass)
       previousState = deepCopyWithJSON(currentState)
     }
   }
+
+  // Listen to the manual state changed event
+  rootElement.addEventListener("sjpsdom-event", rootEventListener)
 
   // Loop through every HTML element in the app.
   // Start tracking each of the events that each element might be listening to.
