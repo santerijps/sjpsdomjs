@@ -267,7 +267,9 @@ function SETE$(parent, child)
   // This function sets the HTML content of an element.
   // The existing content is wiped and forgotten.
   parent.innerHTML = null
-  parent.appendChild(child)
+  const nodes = Array.isArray(child) ? child : [child]
+  for (const node of nodes)
+    parent.appendChild(node)
 }
 
 async function INIT$(rootQuery, appViewDefinition, state)
