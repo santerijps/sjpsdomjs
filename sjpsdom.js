@@ -479,6 +479,11 @@ function INIT_CLASS$(rootElementQuery, appClass)
   // Create an instance of the app class.
   let app = new appClass(currentState)
 
+  // Call the init method if it is defined.
+  if (app.init) {
+    app.init(currentState)
+  }
+
   // Implicitly add a method called stateChanged.
   // This method will force the app to update by triggering the SJPSDOM_EVENT.
   // Can be used with callbacks.
